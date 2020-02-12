@@ -1,6 +1,6 @@
 name: Python package
 
-on: [push]
+on: [pull_request, push]
 
 jobs:
   build:
@@ -9,6 +9,7 @@ jobs:
     strategy:
       matrix:
         python-version: [2.7, 3.8]
+        sphinx-version: [1.7.6, 2.4.1]
 
     steps:
     - uses: actions/checkout@v2
@@ -24,3 +25,8 @@ jobs:
     - name: Build HTML
       run: |
         make html
+    - name: Archive code coverage results
+      uses: actions/upload-artifact@v1
+      with:
+        name: test
+        path: _build/html
